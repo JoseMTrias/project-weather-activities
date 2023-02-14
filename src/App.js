@@ -3,21 +3,32 @@ import './App.css';
 import useLocalStorageState from 'use-local-storage-state';
 import { uid } from 'uid';
 import List from './components/List';
-
-const initialActivities = [
-  {
-    id: 1,
-    dateAdded: 'June 15, 2046',
-    name: 'surfing',
-    weather: 'bad',
-    notes: "don't forget the neopren",
-  },
-];
+import { useEffect } from 'react';
+import { useState } from 'react';
+import Header from './components/Header';
 
 function App() {
   const [activities, setActivities] = useLocalStorageState('activityStorage', {
-    defaultValue: initialActivities,
+    defaultValue: [],
   });
+
+  const [weather, setWeather] = useState({});
+  const url = 'https://example-apis.vercel.app/api/weather';
+
+  async function getWeather() {
+    try {
+      const response = await fetch(url);
+      const fetchedWeather = await response.json();
+      console.log(fetchedWeather);
+      setWeather(fetchedWeather);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const filteredActivities = activities.filter(
+    (activity) => activity.weather === weather.isGoodWeather
+  );
 
   const id = uid(3);
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
@@ -25,13 +36,29 @@ function App() {
 
   function handleAddActivity({ name, notes, weather }) {
     setActivities([{ id, dateAdded, name, notes, weather }, ...activities]);
+    console.log(activities);
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getWeather();
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  // console.log(weather);
+  console.log('here the icon', weather.condition);
 
   return (
     <>
-      <header></header>
+      <Header icon={weather.condition} temperature={weather.temperature} />
       <main>
-        <List activities={activities} />
+        <List
+          activities={filteredActivities}
+          isGoodWeather={weather.isGoodWeather}
+        />
         <Form handleAddActivity={handleAddActivity} />
       </main>
       <footer></footer>

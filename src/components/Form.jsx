@@ -3,7 +3,8 @@ export default function Form({ handleAddActivity }) {
     event.preventDefault();
     const newActivityElement = new FormData(event.target);
     const newActivity = Object.fromEntries(newActivityElement);
-    console.log(newActivity.activity, newActivity.notes, newActivity.weather);
+    newActivity.weather = event.target.elements.weather.checked;
+
     handleAddActivity(newActivity);
 
     event.target.reset();
@@ -11,7 +12,7 @@ export default function Form({ handleAddActivity }) {
   }
 
   return (
-    <form onSubmit={onAddActivity}>
+    <form className="form" onSubmit={onAddActivity}>
       <h3 aria-label="form title element">Add new Activity</h3>
       <label htmlFor="name">Name:</label>
       <input type="text" name="name" id="name"></input>
