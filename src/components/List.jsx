@@ -1,5 +1,5 @@
 import Entry from './Entry';
-export default function List({ activities, isGoodWeather }) {
+export default function List({ activities, isGoodWeather, onDeleteActivity }) {
   return (
     <>
       <h2>
@@ -15,6 +15,7 @@ export default function List({ activities, isGoodWeather }) {
               dateAdded={activity.dateAdded}
               name={activity.name}
               notes={activity.notes}
+              onDeleteActivity={onDeleteActivity}
             />
           );
         })}

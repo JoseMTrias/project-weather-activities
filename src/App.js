@@ -19,7 +19,6 @@ function App() {
     try {
       const response = await fetch(url);
       const fetchedWeather = await response.json();
-      console.log(fetchedWeather);
       setWeather(fetchedWeather);
     } catch (error) {
       console.log(error);
@@ -36,7 +35,10 @@ function App() {
 
   function handleAddActivity({ name, notes, weather }) {
     setActivities([{ id, dateAdded, name, notes, weather }, ...activities]);
-    console.log(activities);
+  }
+
+  function handleDeleteActivity(id) {
+    setActivities(activities.filter((activity) => activity.id !== id));
   }
 
   useEffect(() => {
@@ -48,9 +50,6 @@ function App() {
     };
   }, []);
 
-  // console.log(weather);
-  console.log('here the icon', weather.condition);
-
   return (
     <>
       <Header icon={weather.condition} temperature={weather.temperature} />
@@ -58,6 +57,7 @@ function App() {
         <List
           activities={filteredActivities}
           isGoodWeather={weather.isGoodWeather}
+          onDeleteActivity={handleDeleteActivity}
         />
         <Form handleAddActivity={handleAddActivity} />
       </main>
