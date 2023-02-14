@@ -13,8 +13,8 @@ export default function Form({ handleAddActivity }) {
   return (
     <form onSubmit={onAddActivity}>
       <h3 aria-label="form title element">Add new Activity</h3>
-      <label htmlFor="activity">Name:</label>
-      <input type="text" name="activity" id="activity"></input>
+      <label htmlFor="name">Name:</label>
+      <input type="text" name="name" id="name"></input>
       <label htmlFor="notes">Notes:</label>
       <input type="text" name="notes" id="notes"></input>
       <label htmlFor="weather">Good-weather activity:</label>
