@@ -14,7 +14,7 @@ const initialActivity = [
 ];
 
 function App() {
-  const [activiy, setActivity] = useLocalStorageState('activityStorage', {
+  const [activity, setActivity] = useLocalStorageState('activityStorage', {
     defaultValue: initialActivity,
   });
 
@@ -22,7 +22,7 @@ function App() {
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
   const dateAdded = new Date().toLocaleDateString('en-us', options);
 
-  function onAddActivity({ activity, notes, weather }) {
+  function handleAddActivity({ activity, notes, weather }) {
     setActivity([{ id, dateAdded, activity, notes, weather }, ...activity]);
   }
 
@@ -30,7 +30,7 @@ function App() {
     <>
       <header></header>
       <main>
-        <Form onAddActivity={onAddActivity} />
+        <Form handleAddActivity={handleAddActivity} />
       </main>
       <footer></footer>
     </>

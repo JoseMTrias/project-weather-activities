@@ -1,27 +1,25 @@
-export default function Form({ onAddActivity }) {
-  function handleAddActivity(event) {
+export default function Form({ handleAddActivity }) {
+  function onAddActivity(event) {
     event.preventDefault();
     const newActivityElement = new FormData(event.target);
     const newActivity = Object.fromEntries(newActivityElement);
-
-    onAddActivity(newActivity);
+    console.log(newActivity.activity, newActivity.notes, newActivity.weather);
+    handleAddActivity(newActivity);
 
     event.target.reset();
     document.getElementById('activity').focus();
   }
 
   return (
-    <form onSubmit={handleAddActivity}>
-      <h3 aria-label="form title element">Form element</h3>
-      <label htmlFor="activity">Name of Activity</label>
+    <form onSubmit={onAddActivity}>
+      <h3 aria-label="form title element">Add new Activity</h3>
+      <label htmlFor="activity">Name:</label>
       <input type="text" name="activity" id="activity"></input>
-      <label htmlFor="notes">Notes of Activity</label>
+      <label htmlFor="notes">Notes:</label>
       <input type="text" name="notes" id="notes"></input>
-      <label htmlFor="weather">Good-bad weather checkbox</label>
+      <label htmlFor="weather">Good-weather activity:</label>
       <input type="checkbox" name="weather" id="weather"></input>
-      <button type="submit" onAddActivity={onAddActivity}>
-        Add activity
-      </button>
+      <button type="submit">Submit</button>
     </form>
   );
 }
